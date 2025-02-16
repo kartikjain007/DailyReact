@@ -4,20 +4,33 @@ import Button from "./button";
 import Suggestions from "./suggestions";
 import "./style.css";
 
-function AutoComplete({ suggestions }) {
+function AutoComplete({ suggestions, isLoading }) {
   const [query, setQuery] = useState("");
+  const [showList, setShowList] = useState(false);
 
   function handleQueryChange(value) {
     setQuery(value);
+    setShowList(true);
   }
 
   function handleClear() {
     setQuery("");
   }
 
+  function handleSuggestionSelect(selectedSuggestion) {
+    setQuery(selectedSuggestion);
+    setShowList(false);
+  }
+
   const filteredQuery = suggestions.filter((suggestion) =>
     suggestion.toLowerCase().includes(query.toLowerCase())
   );
+
+  let showSuggestion = !!query.length && showList;
+
+  if (isLoading && query.length) {
+    showSuggestion = true;
+  }
 
   return (
     <div className="auto-complete">
@@ -26,7 +39,14 @@ function AutoComplete({ suggestions }) {
         <Button label="Clear" onClick={handleClear} />
       </div>
 
-      {!!query.length && <Suggestions suggestions={filteredQuery} />}
+      {showSuggestion && (
+        <Suggestions
+          isLoading={isLoading}
+          onSelect={handleSuggestionSelect}
+          suggestions={filteredQuery}
+          selectedSuggestion={query}
+        />
+      )}
     </div>
   );
 }

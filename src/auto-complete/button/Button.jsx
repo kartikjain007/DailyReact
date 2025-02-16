@@ -1,7 +1,11 @@
 import "./style.css";
 
-function Button({ label, onClick = () => {} }) {
-  return <button onClick={onClick}>{label}</button>;
+function Button({ label, onClick = () => {}, ...rest }) {
+  return (
+    <button onClick={onClick} {...rest}>
+      {label}
+    </button>
+  );
 }
 
 export default Button;
