@@ -1,27 +1,48 @@
-import React, { useEffect, useState } from "react";
-import AutoComplete from "./auto-complete/AutoComplete.jsx";
+// import React, { useEffect, useState } from "react";
 import "./App.css";
+import TabList from "./tab-list";
 
-const Suggestions = ["Apple", "Banana", "Orange", "Grapes", "Papaya"];
+const tabs = [
+  {
+    id: 0,
+    label: "Component A",
+    Component: ComponentA,
+  },
+  {
+    id: 1,
+    label: "Component B",
+    Component: ComponentB,
+  },
+  {
+    id: 2,
+    label: "Component C",
+    Component: ComponentC,
+  },
+  {
+    id: 3,
+    label: "Component D",
+    Component: ComponentD,
+  },
+];
+
+function ComponentA() {
+  return <>ComponentA</>;
+}
+function ComponentB() {
+  return <>ComponentB</>;
+}
+function ComponentC() {
+  return <>ComponentC</>;
+}
+function ComponentD() {
+  return <>ComponentD</>;
+}
+
 export default function App() {
-  const [suggestions, setSuggestions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-    new Promise(function (resolve) {
-      setTimeout(() => {
-        resolve(Suggestions);
-      }, 5000);
-    }).then((data) => {
-      setIsLoading(false);
-      setSuggestions(data);
-    });
-  }, []);
   return (
-    <div className="App">
-      <AutoComplete isLoading={isLoading} suggestions={suggestions} />
-    </div>
+    <>
+      <TabList tabs={tabs} />
+    </>
   );
 }
 
